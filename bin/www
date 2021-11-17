@@ -5,7 +5,7 @@
  */
 
 var app = require('../app');
-var debug = require('debug')('fwb95pentyala:server');
+var debug = require('debug')('fwb11korrapati:server');
 var http = require('http');
 
 /**
