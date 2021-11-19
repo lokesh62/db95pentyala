@@ -1,14 +1,34 @@
 extends layout
 
 block content
-  h1= title
-  - let items = results; 
-  - let o;
-  script.
-    function buy(x){
-      alert('Purchased Item: ' + x)
-   } 
-  div(class='container-fluid')
-    div(class='row')
-      each o, c in items 
-        div(class='col-sm-3' onclick=`buy(${c})`) #{o} 
+  
+    h1= title  
+    - let items = results 
+    div(class="container-fluid") 
+    div(class="row m-l")
+        each item in items
+         - let destination = `dispatch(\"/car/update?id=${item._id}\")`
+         div(class="row-sm-2", class="m-1") Item #{item.car_brand}(#{item.size}) is #{item.price} 
+          button.btn( class="btn-primary ml-1", onclick= destination) Update 
+   
+    each form,index in results
+        div(class = "col-sm-2 bg-success" onclick=`buy(${index})`) #{form.CompanyName}
+        br
+        br
+        br
+        div(class = "col-sm-2 bg-danger" onclick=`buy(${index})`) #{form.Model}
+        br
+        br
+        br
+        div(class = "col-sm-2 bg-secondary" onclick=`buy(${index})`) #{form.cost}
+
+
+    script.
+     
+      function buy(itemNo)
+      {
+        alert(`You purchased Item ${itemNo+1}`)
+      } 
+      function dispatch(path){ 
+      window.location.href=path 
+      }
