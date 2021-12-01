@@ -23,6 +23,7 @@ exports.car_detail = async function (req, res) {
     } 
 };
 
+
 // Handle car create on POST.
 exports.car_create_post = async function (req, res) {
   let document = new car();
@@ -34,8 +35,16 @@ exports.car_create_post = async function (req, res) {
   document.price = req.body.price;
   console.log(req.body);
   try {
-    let result = await document.save();
-    res.send(result);
+    if(document.price < 2 || document.price>999){
+      throw new TypeError("Please add price in between 0 and 9999")
+    }
+    else if(document.car_brand.length<=0){
+      throw new TypeError("Brand name is Empty")
+    }
+    else{
+      let result = await document.save();
+      res.send(result);
+    }
   } catch (err) {
     res.status(500);
     res.send(`{"error": ${err}}`);
@@ -199,3 +208,44 @@ result });
       res.send(`{'error': '${err}'}`); 
   } 
 }; 
+
+const { body } = require('express-validator/check')
+
+exports.validate = (method) => {
+  switch (method) {
+    case 'carupdate': {
+     return [ 
+        body('carbrand', 'Username is mandatory').isUppercase(),
+        body('carprice').optional().isInt()
+       ]   
+    }
+  }
+};
+
+const { validationResult } = require('express-validator/check');
+
+exports.carupdate = async (req, res, next) => {
+   try {
+      const errors = validationResult(req); // Finds the validation errors in this request and wraps them in an object with handy functions
+
+      if (!errors.isEmpty()) {
+        res.status(422).json({ errors: errors.array() });
+        return;
+      }
+
+      const { carbrand,carprice } = req.body
+      
+      const user = await User.car_update_Page({
+
+        carbrand,
+
+        carprice
+
+          
+      })
+
+      res.json(user)
+   } catch(err) {
+     return next(err)
+   }
+}

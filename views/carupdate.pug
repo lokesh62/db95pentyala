@@ -21,20 +21,23 @@ block content
    - let carsize = toShow.size 
    - let carprice = toShow.price
    - let actionid = "/resource/car/" + carid
+      
+    
+
    script let actionid = "#{actionid}" 
  
    form(id='carForm', action=actionid, method="PUT") 
     div.form-group 
-        label(for='car_brand' class="form-label") car Brand 
+        label(for='car_brand' class="form-label") Tea Brand 
         input#car_brand(type='text',class="form-control", name='car_brand', value = car_brand) 
     div.form-group 
-        label(for='size' class="form-label") car Size 
+        label(for='size' class="form-label") Tea Size 
         input#size(type='text',class="form-control", name='size', value= carsize) 
     div.form-group 
-        label(for='price' class="form-label") car Price 
+        label(for='price' class="form-label") Tea Price 
         input#price(type='number',class="form-control", name='price', value= carprice) 
     input(type="submit",class="btn btn-primary") 
- 
+   
    script. 
     document.forms['carForm'].addEventListener('submit', (event) => { 
       event.preventDefault(); 

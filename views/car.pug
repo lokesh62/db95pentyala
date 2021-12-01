@@ -1,34 +1,32 @@
 extends layout
 
 block content
-  
-    h1= title  
-    - let items = results 
-    div(class="container-fluid") 
-    div(class="row m-l")
-        each item in items
-         - let destination = `dispatch(\"/car/update?id=${item._id}\")`
-         div(class="row-sm-2", class="m-1") Item #{item.car_brand}(#{item.size}) is #{item.price} 
-          button.btn( class="btn-primary ml-1", onclick= destination) Update 
-   
-    each form,index in results
-        div(class = "col-sm-2 bg-success" onclick=`buy(${index})`) #{form.CompanyName}
-        br
-        br
-        br
-        div(class = "col-sm-2 bg-danger" onclick=`buy(${index})`) #{form.Model}
-        br
-        br
-        br
-        div(class = "col-sm-2 bg-secondary" onclick=`buy(${index})`) #{form.cost}
+  h1= title
+  meta(charset="utf-8")
+  meta(name="viewport", content="width=device-width, initial-scale=1")
+  link(href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css", rel="stylesheet",
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC", crossorigin="anonymous") 
+  script(src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js",
+        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p",
+        crossorigin="anonymous")
+  script(src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js",
+        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF",
+        crossorigin="anonymous")
+  - let items = results; 
+  div(class="container-fluid")
+    div(class="row m-1")
+      - let destination3 = `dispatch(\"/car/create\")`
+      button.btn( class="btn btn-primary btn-sm", onclick= destination3) Create New Item
+      each item in items 
+        - let destination = `dispatch(\"/car/update?id=${item._id}\")`
+        - let destination1 = `dispatch(\"/car/detail?id=${item._id}\")`
+        - let destination2 = `dispatch(\"/car/delete?id=${item._id}\")`
+        div(class="row-sm-2", class="m-1") car #{item.car_brand}(#{item.size}) is #{item.price}
+          button.btn( class="btn btn-warning m-1", onclick= destination) Update
+          button.btn( class="btn btn-success m-2", onclick= destination1) Details
+          button.btn( class="btn btn-danger m-2", onclick= destination2) Delete
 
-
-    script.
-     
-      function buy(itemNo)
-      {
-        alert(`You purchased Item ${itemNo+1}`)
-      } 
-      function dispatch(path){ 
+  script. 
+    function dispatch(path){ 
       window.location.href=path 
-      }
+    } 
